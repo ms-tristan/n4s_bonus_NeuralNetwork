@@ -7,30 +7,30 @@
 
 #include "../includes/coppelia.h"
 
-void render_car_hitbox(global_t *global)
+void render_car_hitbox(global_t *global, race_t *race)
 {
-    sfRectangleShape_setSize(global->hitbox, global->car->size);
-    sfRectangleShape_setRotation(global->hitbox, global->car->direction);
-    sfRectangleShape_setPosition(global->hitbox, global->car->pos);
+    sfRectangleShape_setSize(global->hitbox, race->car->size);
+    sfRectangleShape_setRotation(global->hitbox, race->car->direction);
+    sfRectangleShape_setPosition(global->hitbox, race->car->pos);
     sfRectangleShape_setFillColor(global->hitbox, sfTransparent);
     sfRectangleShape_setOutlineColor(global->hitbox, sfRed);
     sfRectangleShape_setOutlineThickness(global->hitbox, 1);
     sfRenderWindow_drawRectangleShape(global->window, global->hitbox, NULL);
 }
 
-void render_car(global_t *global)
+void render_car(global_t *global, race_t *race)
 {
-    sfSprite_setPosition(global->sprite, global->car->pos);
+    sfSprite_setPosition(global->sprite, race->car->pos);
     sfSprite_setScale(global->sprite, (sfVector2f){CAR_SCALE, CAR_SCALE});
-    sfSprite_setRotation(global->sprite, global->car->direction);
-    sfSprite_setTexture(global->sprite, global->car->texture, sfTrue);
+    sfSprite_setRotation(global->sprite, race->car->direction);
+    sfSprite_setTexture(global->sprite, race->car->texture, sfTrue);
     sfRenderWindow_drawSprite(global->window, global->sprite, NULL);
-    render_car_hitbox(global);
+    render_car_hitbox(global, race);
 }
 
-void render_map(global_t *global)
+void render_map(global_t *global, race_t *race)
 {
-    sfSprite_setPosition(global->sprite, (sfVector2f){0, 0});
+    sfSprite_setPosition(global->sprite, race->origin);
     sfSprite_setRotation(global->sprite, 0);
     sfSprite_setScale(global->sprite, (sfVector2f){1, 1});
     sfSprite_setTexture(global->sprite, global->map_texture, sfTrue);
@@ -39,8 +39,8 @@ void render_map(global_t *global)
 
 static void disp_lidar_line(global_t *global, sfVector2f source, float angle)
 {
-    float line_x = source.x + cos(angle * M_PI / 180) * 1500;
-    float line_y = source.y + sin(angle * M_PI / 180) * 1500;
+    float line_x = source.x + cos(angle * M_PI / 180) * LIDAR_DISTANCE;
+    float line_y = source.y + sin(angle * M_PI / 180) * LIDAR_DISTANCE;
     sfVector2f line_end = {line_x, line_y};
     sfVertexArray *line = sfVertexArray_create();
     sfVertex vertex1 = {.position = source, .color = sfRed};
@@ -53,22 +53,20 @@ static void disp_lidar_line(global_t *global, sfVector2f source, float angle)
     sfVertexArray_destroy(line);
 }
 
-void render_lidar(global_t *global)
+void render_lidar(global_t *global, race_t *race)
 {
-    sfVector2f car_pov = global->car->driver_sit;
-    float car_orientation = global->car->direction;
+    float car_orientation = race->car->direction + LIDAR_OFFSET;
+    sfVector2f car_pov = race->car->driver_sit;
 
-    for (int i = 0; i < 9; i++) {
-        disp_lidar_line(global, car_pov, car_orientation -
-        40 + (20 * i) + 45);
+    for (int i = 0; i < 11; i++) {
+        disp_lidar_line(global, car_pov, car_orientation + (LIDAR_GAP * i));
     }
 }
 
-void render_all(global_t *global)
+void render_all(global_t *global, race_t *race)
 {
-    sfRenderWindow_clear(global->window, sfBlack);
-    render_map(global);
-    render_car(global);
-    render_lidar(global);
+    render_map(global, race);
+    render_car(global, race);
+    render_lidar(global, race);
     sfRenderWindow_display(global->window);
 }

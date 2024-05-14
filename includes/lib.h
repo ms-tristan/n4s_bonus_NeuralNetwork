@@ -9,6 +9,8 @@
 
 #include <stdbool.h>
 
+#define ABS(x) ((x) < 0 ? -(x) : (x))
+
 char **my_str_to_word_array(char const *str, char const *delim);
 char **my_separator(char const *str, char const *delim);
 char *my_strdup(char *str, bool do_free);

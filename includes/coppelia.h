@@ -25,16 +25,28 @@
 // csfml functions :
 sfRenderWindow *init_window(char const *window_name);
 void manage_events(global_t *global);
-void manage_keys(global_t *global);
+void manage_keys(race_t *race);
 
 // car functions :
-void accelerate_car(global_t *global, float speed);
-void move_car(global_t *global);
-void turn_wheels(global_t *global, float angle);
+void accelerate_car(race_t *race, float speed);
+void move_car(race_t *race);
+void turn_wheels(race_t *race, float angle);
+void update_hitbox(race_t *race);
 
 // rendering functions :
-void render_all(global_t *global);
+void render_all(global_t *global, race_t *race);
 
 // lidar functions :
 void print_lidar_data(float *lidar_data);
-float *get_lidar(global_t *global);
+float *get_lidar(race_t *race);
+
+// nn / sim functions :
+void nn_control_car(race_t *race);
+
+// informations functions :
+bool is_pixel_grass(race_t *race, sfVector2f pos);
+
+// init functions :
+global_t *init_game(int nb_of_races);
+race_t *init_race(sfVector2f race_origin, bool mutate);
+car_t *init_car(sfVector2f race_origin);

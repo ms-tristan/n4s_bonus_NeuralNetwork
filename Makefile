@@ -6,11 +6,13 @@
 ##
 
 SRCS 		= 	sources/main.c						\
+				sources/init.c 						\
 				sources/csfml.c 					\
 				sources/car_move.c 					\
 				sources/rendering_functions.c		\
 				sources/key_handling.c 				\
 				sources/lidar.c 					\
+				sources/nn_control_car.c			\
 
 LIB			=	lib/my_putstr.c						\
 				lib/my_strdup.c 					\
@@ -28,6 +30,17 @@ LIB			=	lib/my_putstr.c						\
 				lib/my_separator.c 					\
 				lib/my_str_to_word_array.c			\
 
+NN 			=	NN/maths_functions.c 				\
+				NN/matrix_computing_functions.c		\
+				NN/matrix_management_functions.c	\
+				NN/matrix_nn_functions.c			\
+				NN/nn_computing_functions.c	 		\
+				NN/nn_management_functions.c	 	\
+				NN/nn_training_functions.c	 		\
+				NN/nn_interactions_functions.c	 	\
+				NN/nn_saving_functions.c 			\
+				NN/dataset_functions.c 				\
+
 CSFML		= 	-l csfml-graphics 			\
 				-l csfml-window 			\
 				-l csfml-system 			\
@@ -42,14 +55,14 @@ CFLAGS 		= 	-Wextra -Wall -lm
 
 OBJ 		=	$(SRCS:.c=.o)
 
-NAME		= 	betterCoppelia
+NAME		= 	NNn4s
 
 TESTS_FILES	=	tests/libtests.c 	\
 
 TESTS_NAME 	= 	criterion_tests
 
 $(NAME): $(OBJ)
-	@gcc -o $(NAME) $(OBJ) $(CSFML) $(CFLAGS)
+	@gcc -o $(NAME) $(OBJ) $(NN) $(CSFML) $(CFLAGS)
 
 init:
 	@touch .gitignore
