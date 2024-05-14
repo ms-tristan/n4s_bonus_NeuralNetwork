@@ -7,7 +7,7 @@
 
 #include "nn_framework.h"
 
-void mat_act(mat_t *m, activ_e act)
+void mat_act(mat_t *m, activ_t act)
 {
     for (int y = 0; y < m->rows; y++) {
         for (int x = 0; x < m->cols; x++)

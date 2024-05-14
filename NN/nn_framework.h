@@ -26,7 +26,7 @@ typedef enum activation_func {
     SIGF,
     DIV,
     NONE
-} activ_e;
+} activ_t;
 
 typedef struct vector3i {
     int x;
@@ -57,7 +57,7 @@ typedef struct data {
 float sigmoidf(float nb);
 int rand_mm(int min, int max);
 int sqrt_rest(int number);
-float activation(float nb, activ_e act);
+float activation(float nb, activ_t act);
 
 // MATRIX FUNCTIONS
 mat_t mat_init(int rows, int cols);
@@ -65,7 +65,7 @@ void mat_rand(mat_t *m);
 void mat_copy(mat_t *dest, mat_t *src);
 void mat_print(mat_t m, const char *name);
 void mat_set(mat_t *m, int nb);
-void mat_act(mat_t *m, activ_e act);
+void mat_act(mat_t *m, activ_t act);
 void mat_dot(mat_t *dest, mat_t *src1, mat_t *src2);
 void mat_sum(mat_t *dest, mat_t *src);
 void mat_free(mat_t *m);

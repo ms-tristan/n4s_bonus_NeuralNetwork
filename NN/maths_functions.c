@@ -17,7 +17,7 @@ inline int rand_mm(int min, int max)
     return rand() % (max - min) + min;
 }
 
-float activation(float nb, activ_e act)
+float activation(float nb, activ_t act)
 {
     switch (act) {
         case SIGF:

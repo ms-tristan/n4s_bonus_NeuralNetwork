@@ -146,7 +146,6 @@ float nn_cost(nn_t *nn, dat_t **dataset)
 void nn_mutate(nn_t *nn, float mutation_rate, float mutation_strengh)
 {
     srand(time(NULL));
-
     for (int i = 0; i < nn->arch_size - 1; i++) {
         for (int j = 0; j < nn->bias[i].cols; j++) {
             mat_mutate(&nn->bias[i], mutation_rate, mutation_strengh);

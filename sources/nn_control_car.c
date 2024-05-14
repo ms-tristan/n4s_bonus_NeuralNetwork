@@ -18,7 +18,6 @@ void lidar_to_nn(race_t *race)
     total_info.matrix[0][i] = race->car->speed;
     total_info.matrix[0][i + 1] = race->car->wheels;
     nn_forward(&race->nn, &total_info);
-    // mat_print(total_info, "output:");
     mat_free(&total_info);
 }
 

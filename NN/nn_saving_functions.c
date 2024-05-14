@@ -42,6 +42,12 @@ static void mat_read(mat_t *mat, FILE *file)
             fscanf(file, "%f ", &mat->matrix[i][j]);
 }
 
+static void free_and_close(FILE *file, int *arch)
+{
+    fclose(file);
+    free(arch);
+}
+
 nn_t nn_open(const char *path)
 {
     FILE *file = fopen(path, "r");
@@ -62,7 +68,6 @@ nn_t nn_open(const char *path)
         mat_read(&nn.weights[i], file);
         mat_read(&nn.bias[i], file);
     }
-    fclose(file);
-    free(arch);
+    free_and_close(file, arch);
     return nn;
 }

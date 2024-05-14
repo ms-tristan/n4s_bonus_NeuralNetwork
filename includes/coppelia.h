@@ -31,7 +31,6 @@ void manage_keys(race_t *race);
 void accelerate_car(race_t *race, float speed);
 void move_car(race_t *race);
 void turn_wheels(race_t *race, float angle);
-void update_hitbox(race_t *race);
 
 // rendering functions :
 void render_race(global_t *global, race_t *race);

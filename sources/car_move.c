@@ -32,7 +32,7 @@ static bool is_car_on_grass(race_t *race)
     return (false);
 }
 
-void update_hitbox(race_t *race)
+static void update_hitbox(race_t *race)
 {
     sfVector2f pos = race->car->pos;
     sfVector2f size = race->car->size;

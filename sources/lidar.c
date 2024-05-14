@@ -20,10 +20,12 @@ void print_lidar_data(float *lidar_data)
 static float get_lidar_line(race_t *race, sfVector2f source, float angle)
 {
     float distance = 0;
+    float x = 0;
+    float y = 0;
 
     for (float i = 0; i < LIDAR_DISTANCE; i += LIDAR_IMPRECISION) {
-        float x = source.x + cos(angle * M_PI / 180) * i;
-        float y = source.y + sin(angle * M_PI / 180) * i;
+        x = source.x + cos(angle * M_PI / 180) * i;
+        y = source.y + sin(angle * M_PI / 180) * i;
         if (sfImage_getPixel(race->map, x, y).g > 150) {
             distance = i;
             break;
