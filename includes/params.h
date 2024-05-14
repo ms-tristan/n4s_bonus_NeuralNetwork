@@ -51,7 +51,8 @@
 #define LIDAR_DISTANCE 1000
 
 //! simulation and nn params:
-#define TRAINING_ITERATIONS 600
+#define RACES_DURATION 600
 #define MUTATION_RATE 0.05
-#define NB_OF_RACES 100
-#define NB_OF_TRAINING_ROUNDS 500
+#define MUTATION_STRENGTH 0.1
+#define NB_OF_RACES 300
+#define TRAINING_ITERATIONS 500

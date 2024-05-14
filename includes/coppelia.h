@@ -34,7 +34,7 @@ void turn_wheels(race_t *race, float angle);
 void update_hitbox(race_t *race);
 
 // rendering functions :
-void render_all(global_t *global, race_t *race);
+void render_race(global_t *global, race_t *race);
 
 // lidar functions :
 void print_lidar_data(float *lidar_data);
@@ -47,6 +47,12 @@ void nn_control_car(race_t *race);
 bool is_pixel_grass(race_t *race, sfVector2f pos);
 
 // init functions :
-global_t *init_game(int nb_of_races);
-race_t *init_race(sfVector2f race_origin, bool mutate);
+global_t *init_csfml(void);
+race_t *init_race(float mutation_rate, float mutation_strength);
+race_t **init_races(global_t *global, int nb_of_races, float mutation_rate,
+    float mutation_strength);
 car_t *init_car(sfVector2f race_origin);
+
+// free functions :
+void free_races(global_t *global, int nb_of_races);
+void free_global(global_t *global);

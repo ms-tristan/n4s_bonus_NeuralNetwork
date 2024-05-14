@@ -34,7 +34,7 @@ static float get_lidar_line(race_t *race, sfVector2f source, float angle)
 
 float *get_lidar(race_t *race)
 {
-    float *lidar_data = malloc(sizeof(float) * LIDAR_SIZE);
+    float *lidar_data = ALLOC(sizeof(float) * LIDAR_SIZE);
     float car_orientation = race->car->direction + LIDAR_OFFSET;
     sfVector2f car_pov = race->car->driver_sit;
 

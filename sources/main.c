@@ -15,19 +15,7 @@ static int print_help_message(void)
     return 0;
 }
 
-static void game_loop(global_t *global, race_t *race, int pos)
-{
-    manage_events(global);
-    race->lidar_data = get_lidar(race);
-    // manage_keys(race);
-    nn_control_car(race);
-    move_car(race);
-    if (pos == 0)
-        render_all(global, race);
-    free(race->lidar_data);
-}
-
-void save_best_nn_fit(global_t *global, int nb_of_races)
+void nn_save_best_fit(global_t *global, int nb_of_races)
 {
     race_t *best_fit = global->races[0];
 
@@ -37,53 +25,51 @@ void save_best_nn_fit(global_t *global, int nb_of_races)
         printf("-- NN fit : %f\n", global->races[i]->nn_fitness);
     }
     printf("SAVED FITNESS : %f\n", best_fit->nn_fitness);
-    nn_save(&best_fit->nn, "autopilot_save.nn");
+    nn_save(&best_fit->nn, "nn_saves/autopilot_save.nn");
 }
 
-void free_all(global_t *global, int nb_of_races)
+// manage_keys(races[i]);
+//? Add this to the game loop to control the car with the keys
+//! This will affect the car's fitness
+// so make sure to disable the nn_save_best_fit function
+static void game_loop(global_t *global, race_t **races, int nb_of_races)
 {
     for (int i = 0; i < nb_of_races; i++) {
-        sfTexture_destroy(global->races[i]->car->texture);
-        nn_free(&global->races[i]->nn);
-        free(global->races[i]->car);
-        sfImage_destroy(global->races[i]->map);
-        free(global->races[i]);
+        manage_events(global);
+        races[i]->lidar_data = get_lidar(races[i]);
+        nn_control_car(races[i]);
+        move_car(races[i]);
+        if (i == 0)
+            render_race(global, races[i]);
+        FREE(races[i]->lidar_data);
     }
-    free(global->races);
-    sfRectangleShape_destroy(global->hitbox);
-    sfSprite_destroy(global->sprite);
-    sfTexture_destroy(global->map_texture);
-    sfRenderWindow_destroy(global->window);
-    sfView_destroy(global->view);
 }
 
-static void launch_game(int iteration)
+static void launch_game(int nb_of_trainings, int nb_of_races, int races_len)
 {
-    int game_iterations = 0;
-    global_t *global = init_game(NB_OF_RACES);
+    global_t *global = init_csfml();
 
-    printf("\t--%d ITERATIONS LEFT--\n", iteration);
     if (!global || !global->window)
         return;
-    while (game_iterations < TRAINING_ITERATIONS &&
-    sfRenderWindow_isOpen(global->window)) {
-        for (int i = 0; i < NB_OF_RACES; i++)
-            game_loop(global, global->races[i], i);
-        game_iterations++;
-        printf("%d\n", game_iterations);
+    while (sfRenderWindow_isOpen(global->window) && nb_of_trainings >= 0) {
+        printf("\t--%d ITERATIONS LEFT--\n", nb_of_trainings);
+        global->races = init_races(global, nb_of_races,
+        MUTATION_RATE, MUTATION_STRENGTH);
+        for (int i = 0; i < races_len; i++) {
+            game_loop(global, global->races, nb_of_races);
+            printf("%d\n", i);
+        }
+        nn_save_best_fit(global, nb_of_races);
+        free_races(global, nb_of_races);
+        nb_of_trainings--;
     }
-    save_best_nn_fit(global, NB_OF_RACES);
-    free_all(global, NB_OF_RACES);
-    if (iteration > 1)
-        launch_game(iteration - 1);
+    free_global(global);
 }
 
 int main(int argc, char **argv)
 {
     if (argc == 2 && my_strcmp(argv[1], "-h"))
         return print_help_message();
-    if (argc != 1)
-        return 84;
-    launch_game(NB_OF_TRAINING_ROUNDS);
+    launch_game(TRAINING_ITERATIONS, NB_OF_RACES, 400);
     return 0;
 }

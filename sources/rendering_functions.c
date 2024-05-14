@@ -63,7 +63,7 @@ void render_lidar(global_t *global, race_t *race)
     }
 }
 
-void render_all(global_t *global, race_t *race)
+void render_race(global_t *global, race_t *race)
 {
     render_map(global, race);
     render_car(global, race);

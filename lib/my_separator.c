@@ -52,8 +52,8 @@ static char *add_word(char *str, char *word)
     char *temp = my_strcat(str, " ");
     char *new_str = my_strcat(temp, word);
 
-    free(str);
-    free(temp);
+    FREE(str);
+    FREE(temp);
     return new_str;
 }
 
@@ -76,7 +76,7 @@ char **my_separator(char const *str, char const *delim)
         return NULL;
     new_array = malloc_array((size_t)(elements_count + 1));
     for (int i = 0; i < elements_count; i++) {
-        new_array[i] = my_strdup(*ref_array_cpy, false);
+        new_array[i] = my_strdup(*ref_array_cpy);
         ref_array_cpy++;
         if (is_a_delim(new_array[i], delim))
             continue;

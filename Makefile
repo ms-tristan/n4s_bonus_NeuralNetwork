@@ -13,6 +13,7 @@ SRCS 		= 	sources/main.c						\
 				sources/key_handling.c 				\
 				sources/lidar.c 					\
 				sources/nn_control_car.c			\
+				sources/free_functions.c 			\
 
 LIB			=	lib/my_putstr.c						\
 				lib/my_strdup.c 					\
@@ -29,6 +30,7 @@ LIB			=	lib/my_putstr.c						\
 				lib/my_isalphanum.c 				\
 				lib/my_separator.c 					\
 				lib/my_str_to_word_array.c			\
+				lib/my_mem.c 						\
 
 NN 			=	NN/maths_functions.c 				\
 				NN/matrix_computing_functions.c		\

@@ -7,14 +7,15 @@
 
 #include <stdlib.h>
 
+#include "../includes/lib.h"
+
 void my_arrayfree(void **array)
 {
-    if (array == NULL)
+    if (!array)
         return;
-    for (int i = 0; array[i] != NULL; i++) {
+    for (int i = 0; array[i]; i++) {
         if (array[i] != NULL)
-            free(array[i]);
+            FREE(array[i]);
     }
-    free(array);
-    array = NULL;
+    FREE(array);
 }

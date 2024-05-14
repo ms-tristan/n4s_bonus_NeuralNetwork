@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "../includes/lib.h"
 
-static int is_in_list(char c, char const *delim)
+static int isinlist(char c, char const *delim)
 {
     if (c == '\0')
         return 0;
@@ -24,11 +24,11 @@ static int go_to_next_word(int *i, char const *str, char const *delim)
     int offset = 0;
     int i_bis = *i;
 
-    while (str[i_bis] != '\0' && is_in_list(str[i_bis], delim)) {
+    while (str[i_bis] != '\0' && !isinlist(str[i_bis], delim)) {
         offset++;
         i_bis++;
     }
-    while (str[i_bis] != '\0' && !is_in_list(str[i_bis], delim)) {
+    while (str[i_bis] != '\0' && isinlist(str[i_bis], delim)) {
         offset++;
         i_bis++;
     }
@@ -42,7 +42,7 @@ static int count_words(char const *str, char const *delim)
 
     if (str == NULL || str[0] == '\0')
         return 0;
-    while (!is_in_list(str[i], delim) && str[i] != '\0')
+    while (!isinlist(str[i], delim) && str[i] != '\0')
         i++;
     while (str[i] != '\0') {
         count++;
@@ -55,9 +55,9 @@ static int get_next_word_len(char const *str, int *cursor, char const *delim)
 {
     int len = 0;
 
-    while (!is_in_list(str[*cursor], delim) && str[*cursor] != '\0')
+    while (!isinlist(str[*cursor], delim) && str[*cursor] != '\0')
         *cursor += 1;
-    while (is_in_list(str[*cursor + len], delim) && str[*cursor + len] != '\0')
+    while (isinlist(str[*cursor + len], delim) && str[*cursor + len] != '\0')
         len++;
     return len;
 }
@@ -69,11 +69,11 @@ static char *add_element(char const *str, int *cursor, char const *delim)
     int i = *cursor;
 
     if (element_len < 1) {
-        free(new_element);
+        FREE(new_element);
         return NULL;
     }
     new_element[element_len] = '\0';
-    while (is_in_list(str[*cursor], delim)) {
+    while (isinlist(str[*cursor], delim)) {
         new_element[*cursor - i] = str[*cursor];
         *cursor += 1;
     }

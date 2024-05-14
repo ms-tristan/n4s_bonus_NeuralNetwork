@@ -11,8 +11,7 @@ static int my_recustr(char const *str, int i)
 {
     if (str[i] == '\0')
         return i;
-    i++;
-    return my_recustr(str, i);
+    return my_recustr(str, i + 1);
 }
 
 int my_strlen(char const *str)

@@ -9,7 +9,7 @@
 
 car_t *init_car(sfVector2f race_origin)
 {
-    car_t *car = malloc(sizeof(car_t));
+    car_t *car = ALLOC(sizeof(car_t));
 
     car->texture = sfTexture_createFromFile
     ("./assets/textures/car.png", NULL);
@@ -27,34 +27,51 @@ car_t *init_car(sfVector2f race_origin)
     return car;
 }
 
-race_t *init_race(sfVector2f race_origin, bool mutate)
+race_t *init_race(float mutation_rate, float mutation_strength)
 {
-    race_t *new_race = malloc(sizeof(race_t));
+    race_t *new_race = ALLOC(sizeof(race_t));
 
     new_race->nn_fitness = 0;
-    new_race->nn = nn_open("autopilot_save.nn");
-    if (mutate)
-        nn_mutate(&new_race->nn, MUTATION_RATE);
-    new_race->car = init_car(race_origin);
-    new_race->origin = race_origin;
+    new_race->nn = nn_open("nn_saves/autopilot_save.nn");
+    nn_mutate(&new_race->nn, mutation_rate, mutation_strength);
+    new_race->origin = (sfVector2f){0, 0};
+    new_race->car = init_car(new_race->origin);
     new_race->map = sfImage_createFromFile(MAP_FILEPATH);
     return new_race;
 }
 
-global_t *init_game(int nb_of_races)
+race_t **init_races(global_t *global, int nb_of_races, float mutation_rate,
+    float mutation_strength)
 {
-    global_t *global = malloc(sizeof(global_t));
-    sfVector2f origin = {0, 0};
+    race_t **races = ALLOC(sizeof(global_t *) * nb_of_races);
 
-    global->races = malloc(sizeof(global_t *) * nb_of_races);
-    global->races[0] = init_race(origin, false);
-    for (int i = 1; i < nb_of_races; i++) {
-        origin.x = X_SIZE * i;
-        global->races[i] = init_race(origin, true);
+    races[0] = init_race(0, 0);
+    for (int i = 1; i < nb_of_races / 4; i++) {
+        manage_events(global);
+        races[i] = init_race(mutation_rate, mutation_strength);
     }
+    for (int i = nb_of_races / 4; i < nb_of_races / 2; i++) {
+        manage_events(global);
+        races[i] = init_race(1, 0.5);
+    }
+    for (int i = nb_of_races / 2; i < nb_of_races / 1.5; i++) {
+        manage_events(global);
+        races[i] = init_race(i / nb_of_races, 1 / i);
+    }
+    for (int i = nb_of_races / 1.5; i < nb_of_races; i++) {
+        manage_events(global);
+        races[i] = init_race(i / nb_of_races, 1 / i);
+    }
+    return races;
+}
+
+global_t *init_csfml(void)
+{
+    global_t *global = ALLOC(sizeof(global_t));
+
     global->view = sfView_createFromRect((sfFloatRect){0, 0,
     X_SIZE, Y_SIZE});
-    global->window = init_window("CoppeliaMieux");
+    global->window = init_window("n4s");
     global->sprite = sfSprite_create();
     global->hitbox = sfRectangleShape_create();
     global->map_texture = sfTexture_createFromFile
