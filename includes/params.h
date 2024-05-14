@@ -38,9 +38,9 @@
 // turn speed
 #define TURN_SPEED 0.1
 // origin
-#define X_CAR_ORIGIN 200
-#define Y_CAR_ORIGIN 300
-#define CAR_ROTATION 0
+#define X_CAR_ORIGIN 1000
+#define Y_CAR_ORIGIN 900
+#define CAR_ROTATION -90
 #define MAP_FILEPATH "./assets/textures/scenes/1.png"
 
 //! lidar params:
