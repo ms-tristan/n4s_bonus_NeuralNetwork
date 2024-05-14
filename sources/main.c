@@ -57,6 +57,6 @@ int main(int argc, char **argv)
 {
     if (argc == 2 && my_strcmp(argv[1], "-h"))
         return print_help_message();
-    launch_game(TRAINING_ITERATIONS, NB_OF_RACES, 500);
+    launch_game(TRAINING_ITERATIONS, NB_OF_RACES, 1000);
     return 0;
 }
