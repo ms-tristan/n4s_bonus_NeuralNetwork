@@ -13,6 +13,7 @@ SRCS 		= 	sources/main.c						\
 				sources/key_handling.c 				\
 				sources/lidar.c 					\
 				sources/nn_control_car.c			\
+				sources/save_races.c	 			\
 				sources/free_functions.c 			\
 
 LIB			=	lib/my_putstr.c						\

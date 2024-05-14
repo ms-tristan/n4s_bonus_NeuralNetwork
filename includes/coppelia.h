@@ -42,14 +42,15 @@ float *get_lidar(race_t *race);
 
 // nn / sim functions :
 void nn_control_car(race_t *race);
+void nn_save_best_fits(global_t *global, int nb_of_races, int nb_of_saves);
 
 // informations functions :
 bool is_pixel_grass(race_t *race, sfVector2f pos);
 
 // init functions :
 global_t *init_csfml(void);
-race_t *init_race(float mutation_rate, float mutation_strength);
-race_t **init_races(global_t *global, int nb_of_races, float mutation_rate,
+race_t *init_race(float mutation_rate, float mutation_strength, char *model);
+race_t **init_races(int nb_of_races, float mutation_rate,
     float mutation_strength);
 car_t *init_car(sfVector2f race_origin);
 

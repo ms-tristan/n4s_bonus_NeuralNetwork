@@ -27,41 +27,41 @@ car_t *init_car(sfVector2f race_origin)
     return car;
 }
 
-race_t *init_race(float mutation_rate, float mutation_strength)
+race_t *init_race(float mutation_rate, float mutation_strength, char *model)
 {
     race_t *new_race = ALLOC(sizeof(race_t));
 
     new_race->nn_fitness = 0;
-    new_race->nn = nn_open("nn_saves/autopilot_save.nn");
-    nn_mutate(&new_race->nn, mutation_rate, mutation_strength);
+    new_race->nn = nn_open(model);
+    if (mutation_rate > 0)
+        nn_mutate(&new_race->nn, mutation_rate, mutation_strength);
     new_race->origin = (sfVector2f){0, 0};
     new_race->car = init_car(new_race->origin);
     new_race->map = sfImage_createFromFile(MAP_FILEPATH);
     return new_race;
 }
 
-race_t **init_races(global_t *global, int nb_of_races, float mutation_rate,
+race_t **init_races(int nb_of_races, float mutation_rate,
     float mutation_strength)
 {
     race_t **races = ALLOC(sizeof(global_t *) * nb_of_races);
+    char file_name[50];
 
-    races[0] = init_race(0, 0);
-    for (int i = 1; i < nb_of_races / 4; i++) {
-        manage_events(global);
-        races[i] = init_race(mutation_rate, mutation_strength);
+    for (int i = 0; i < NB_OF_SAVES; i++) {
+        sprintf(file_name, "nn_saves/autopilot_save_%d.nn", i);
+        races[i] = init_race(0, 0, file_name);
     }
-    for (int i = nb_of_races / 4; i < nb_of_races / 2; i++) {
-        manage_events(global);
-        races[i] = init_race(1, 0.5);
+    for (int i = NB_OF_SAVES; i < 2 * NB_OF_SAVES; i++) {
+        sprintf(file_name, "nn_saves/autopilot_save_%d.nn", i - NB_OF_SAVES);
+        races[i] = init_race(1, 0.5, file_name);
     }
-    for (int i = nb_of_races / 2; i < nb_of_races / 1.5; i++) {
-        manage_events(global);
-        races[i] = init_race(i / nb_of_races, 1 / i);
+    for (int i = 2 * NB_OF_SAVES; i < nb_of_races; i++) {
+        sprintf(file_name, "nn_saves/autopilot_save_%d.nn",
+        i % NB_OF_SAVES);
+        races[i] = init_race(mutation_rate, mutation_strength, file_name);
     }
-    for (int i = nb_of_races / 1.5; i < nb_of_races; i++) {
-        manage_events(global);
-        races[i] = init_race(i / nb_of_races, 1 / i);
-    }
+    for (int i = 1; i <= NB_OF_SAVES; i++)
+        nn_mutate(&races[nb_of_races - 1]->nn, 1 / i, 1 / i);
     return races;
 }
 

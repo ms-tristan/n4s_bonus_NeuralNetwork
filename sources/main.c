@@ -15,19 +15,6 @@ static int print_help_message(void)
     return 0;
 }
 
-void nn_save_best_fit(global_t *global, int nb_of_races)
-{
-    race_t *best_fit = global->races[0];
-
-    for (int i = 0; i < nb_of_races; i++) {
-        if (global->races[i]->nn_fitness > best_fit->nn_fitness)
-            best_fit = global->races[i];
-        printf("-- NN fit : %f\n", global->races[i]->nn_fitness);
-    }
-    printf("SAVED FITNESS : %f\n", best_fit->nn_fitness);
-    nn_save(&best_fit->nn, "nn_saves/autopilot_save.nn");
-}
-
 // manage_keys(races[i]);
 //? Add this to the game loop to control the car with the keys
 //! This will affect the car's fitness
@@ -53,13 +40,13 @@ static void launch_game(int nb_of_trainings, int nb_of_races, int races_len)
         return;
     while (sfRenderWindow_isOpen(global->window) && nb_of_trainings >= 0) {
         printf("\t--%d ITERATIONS LEFT--\n", nb_of_trainings);
-        global->races = init_races(global, nb_of_races,
+        global->races = init_races(nb_of_races,
         MUTATION_RATE, MUTATION_STRENGTH);
         for (int i = 0; i < races_len; i++) {
             game_loop(global, global->races, nb_of_races);
             printf("%d\n", i);
         }
-        nn_save_best_fit(global, nb_of_races);
+        nn_save_best_fits(global, nb_of_races, NB_OF_SAVES);
         free_races(global, nb_of_races);
         nb_of_trainings--;
     }
