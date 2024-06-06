@@ -5,7 +5,7 @@
 ** key_management
 */
 
-#include "../includes/coppelia.h"
+#include "../includes/n4S.h"
 
 void manage_keys(race_t *race)
 {

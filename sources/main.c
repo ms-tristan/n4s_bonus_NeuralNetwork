@@ -5,7 +5,7 @@
 ** This is the best game ever made.
 */
 
-#include "../includes/coppelia.h"
+#include "../includes/n4S.h"
 #include "../NN/nn_framework.h"
 
 static int print_help_message(void)
@@ -57,6 +57,6 @@ int main(int argc, char **argv)
 {
     if (argc == 2 && my_strcmp(argv[1], "-h"))
         return print_help_message();
-    launch_game(TRAINING_ITERATIONS, NB_OF_RACES, 1000);
+    launch_game(TRAINING_ITERATIONS, NB_OF_RACES, 800);
     return 0;
 }

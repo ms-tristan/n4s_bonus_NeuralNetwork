@@ -5,7 +5,7 @@
 ** init
 */
 
-#include "../includes/coppelia.h"
+#include "../includes/n4S.h"
 
 car_t *init_car(sfVector2f race_origin)
 {

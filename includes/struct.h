@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "coppelia.h"
+#include "n4s.h"
 #include "../NN/nn_framework.h"
 
 // CAR :

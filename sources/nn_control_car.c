@@ -5,7 +5,7 @@
 ** nn_move_car
 */
 
-#include "../includes/coppelia.h"
+#include "../includes/n4S.h"
 #include "../NN/nn_framework.h"
 
 void lidar_to_nn(race_t *race)

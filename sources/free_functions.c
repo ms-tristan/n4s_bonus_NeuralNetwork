@@ -5,7 +5,7 @@
 ** free_functions
 */
 
-#include "../includes/coppelia.h"
+#include "../includes/n4S.h"
 
 void free_races(global_t *global, int nb_of_races)
 {

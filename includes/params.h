@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "coppelia.h"
+#include "n4s.h"
 
 //! macros:
 
@@ -38,9 +38,9 @@
 // turn speed
 #define TURN_SPEED 0.1
 // origin
-#define X_CAR_ORIGIN 1000
-#define Y_CAR_ORIGIN 900
-#define CAR_ROTATION -90
+#define X_CAR_ORIGIN 150
+#define Y_CAR_ORIGIN 400
+#define CAR_ROTATION 0
 #define MAP_FILEPATH "./assets/textures/scenes/1.png"
 
 //! lidar params:
@@ -52,8 +52,8 @@
 
 //! simulation and nn params:
 #define RACES_DURATION 600
-#define MUTATION_RATE 0.05
-#define MUTATION_STRENGTH 0.1
+#define MUTATION_RATE 0.1
+#define MUTATION_STRENGTH 0.2
 #define NB_OF_RACES 300
 #define TRAINING_ITERATIONS 500
 #define NB_OF_SAVES 25
