@@ -6,7 +6,7 @@
 ** (such as creating a new window).
 */
 
-#include "../includes/n4S.h"
+#include "../includes/n4s.h"
 
 void manage_events(global_t *global)
 {

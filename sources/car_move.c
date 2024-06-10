@@ -5,7 +5,7 @@
 ** car_move
 */
 
-#include "../includes/n4S.h"
+#include "../includes/n4s.h"
 
 bool is_pixel_grass(race_t *race, sfVector2f pos)
 {

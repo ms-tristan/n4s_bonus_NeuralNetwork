@@ -22,6 +22,8 @@
 
 #define ACTIVATION SIGF
 
+#define ABS(x) ((x) < 0 ? -(x) : (x))
+
 typedef enum activation_func {
     SIGF,
     DIV,
@@ -89,6 +91,11 @@ void nn_apply_gradient(nn_t *nn, nn_t *g, float rate);
 void nn_print_results(nn_t *nn, dat_t *td);
 void nn_mutate(nn_t *nn, float mutation_rate, float mutation_strengh);
 void nn_save(nn_t *nn, const char *path);
+
+
+// DISPLAY FUNCTIONS
+typedef struct sfRenderWindow sfRenderWindow;
+void draw_nn_on_window(sfRenderWindow *window, nn_t *nn);
 
 // DATA FUNCTIONS
 dat_t *datasheet_init(float *inputs, int ip_len, float *outputs, int op_len);

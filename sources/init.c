@@ -5,7 +5,7 @@
 ** init
 */
 
-#include "../includes/n4S.h"
+#include "../includes/n4s.h"
 
 car_t *init_car(sfVector2f race_origin)
 {

@@ -5,7 +5,7 @@
 ** key_management
 */
 
-#include "../includes/n4S.h"
+#include "../includes/n4s.h"
 
 void manage_keys(race_t *race)
 {

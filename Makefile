@@ -43,6 +43,7 @@ NN 			=	NN/maths_functions.c 				\
 				NN/nn_interactions_functions.c	 	\
 				NN/nn_saving_functions.c 			\
 				NN/dataset_functions.c 				\
+				NN/nn_render.c						\
 
 CSFML		= 	-l csfml-graphics 			\
 				-l csfml-window 			\
@@ -53,6 +54,8 @@ CSFML		= 	-l csfml-graphics 			\
 .PHONY: all tests tests_run fclean re all init
 
 SRCS 		+= 	$(LIB)
+
+SRCS 		+= 	$(NN)
 
 CFLAGS 		= 	-Wextra -Wall -lm
 
@@ -65,7 +68,7 @@ TESTS_FILES	=	tests/libtests.c 	\
 TESTS_NAME 	= 	criterion_tests
 
 $(NAME): $(OBJ)
-	@gcc -o $(NAME) $(OBJ) $(NN) $(CSFML) $(CFLAGS)
+	@gcc -o $(NAME) $(OBJ) $(CSFML) $(CFLAGS)
 
 init:
 	@touch .gitignore

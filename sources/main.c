@@ -1,11 +1,11 @@
 /*
 ** EPITECH PROJECT, 2023
-** my_rpg
+** Need4Stek
 ** File description:
-** This is the best game ever made.
+** This is the best simulation ever made.
 */
 
-#include "../includes/n4S.h"
+#include "../includes/n4s.h"
 #include "../NN/nn_framework.h"
 
 static int print_help_message(void)

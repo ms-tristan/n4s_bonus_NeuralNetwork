@@ -5,7 +5,7 @@
 ** car render
 */
 
-#include "../includes/n4S.h"
+#include "../includes/n4s.h"
 
 void render_car_hitbox(global_t *global, race_t *race)
 {
@@ -68,5 +68,7 @@ void render_race(global_t *global, race_t *race)
     render_map(global, race);
     render_car(global, race);
     render_lidar(global, race);
+    if (sfKeyboard_isKeyPressed(sfKeyN))
+        draw_nn_on_window(global->window, &race->nn);
     sfRenderWindow_display(global->window);
 }
