@@ -49,3 +49,12 @@ void nn_save_best_fits(global_t *global, int nb_of_races, int nb_of_saves)
     }
     FREE(bests);
 }
+
+void randomize_nns(bool randomize, int i, race_t **races, int nb_of_races)
+{
+    if (randomize && i == TRAINING_ITERATIONS) {
+        for (int i = 0; i < nb_of_races; i++) {
+            nn_rand(&races[i]->nn);
+        }
+    }
+}

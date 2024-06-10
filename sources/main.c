@@ -32,7 +32,8 @@ static void game_loop(global_t *global, race_t **races, int nb_of_races)
     }
 }
 
-static void launch_game(int nb_of_trainings, int nb_of_races, int races_len)
+static void launch_game(int nb_of_trainings, int nb_of_races, int races_len
+, bool randomize)
 {
     global_t *global = init_csfml();
 
@@ -42,6 +43,7 @@ static void launch_game(int nb_of_trainings, int nb_of_races, int races_len)
         printf("\t--%d ITERATIONS LEFT--\n", nb_of_trainings);
         global->races = init_races(nb_of_races,
         MUTATION_RATE, MUTATION_STRENGTH);
+        randomize_nns(randomize, nb_of_trainings, global->races, nb_of_races);
         for (int i = 0; i < races_len; i++) {
             game_loop(global, global->races, nb_of_races);
             printf("%d\n", i);
@@ -57,6 +59,9 @@ int main(int argc, char **argv)
 {
     if (argc == 2 && my_strcmp(argv[1], "-h"))
         return print_help_message();
-    launch_game(TRAINING_ITERATIONS, NB_OF_RACES, 800);
+    if (argc == 2 && my_strcmp(argv[1], "-r"))
+        launch_game(TRAINING_ITERATIONS, NB_OF_RACES, 100, true);
+    else
+        launch_game(TRAINING_ITERATIONS, NB_OF_RACES, 800, false);
     return 0;
 }

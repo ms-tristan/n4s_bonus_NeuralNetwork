@@ -52,6 +52,7 @@ race_t *init_race(float mutation_rate, float mutation_strength, char *model);
 race_t **init_races(int nb_of_races, float mutation_rate,
     float mutation_strength);
 car_t *init_car(sfVector2f race_origin);
+void randomize_nns(bool randomize, int i, race_t **races, int nb_of_races);
 
 // free functions :
 void free_races(global_t *global, int nb_of_races);
